@@ -3,7 +3,9 @@ import os
 import pandas as pd
 import ast
 import random
+from dotenv import load_dotenv
 
+load_dotenv()
 
 def video_caption(video_directory, caption_csv):
     """Displays a video with corresponding caption with a translucent black background for visibility
@@ -92,15 +94,17 @@ def video_caption(video_directory, caption_csv):
         
 def main():
     
-    master_video_dir = "/Volumes/proj/hnl_downloaded_public_data/weakly_labeled/webvid-10M/data/train/videos" # The directory with all the video directories
+    proj_root = os.getenv('PROJ_ROOT', '/Volumes/proj')  # Use environment variable or default path
+
+    master_video_dir = f"{proj_root}/hnl_downloaded_public_data/weakly_labeled/webvid-10M/data/train/videos" # The directory with all the video directories
 
     master_video_path_list = [f for f in os.listdir(master_video_dir) if not f.startswith(".")] # Make a list of all the non-hidden video directories to be used for a random selection
 
     random_index = random.randint(0, len(master_video_path_list) - 1) # Randomly select an index to be called in the paths
 
-    video_directory = f"/Volumes/proj/hnl_downloaded_public_data/weakly_labeled/webvid-10M/data/train/videos/{master_video_path_list[random_index]}" # Call video directory path using random index from list
+    video_directory = f"{proj_root}/hnl_downloaded_public_data/weakly_labeled/webvid-10M/data/train/videos/{master_video_path_list[random_index]}" # Call video directory path using random index from list
 
-    caption_csv = f"/Volumes/proj/hnl_downloaded_public_data/weakly_labeled/webvid-10M/data/train/partitions/{master_video_path_list[random_index]}" + ".csv" # Call partition path using random index from list
+    caption_csv = f"{proj_root}/hnl_downloaded_public_data/weakly_labeled/webvid-10M/data/train/partitions/{master_video_path_list[random_index]}" + ".csv" # Call partition path using random index from list
 
     video_caption(video_directory, caption_csv) # Execute function with paths
     

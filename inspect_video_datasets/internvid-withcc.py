@@ -3,7 +3,9 @@ import os
 import pandas as pd
 import ast
 import random
+from dotenv import load_dotenv
 
+load_dotenv()
 
 def video_caption(video_directory, caption_csv):
     """Displays a video with corresponding caption with a translucent black background for visibility
@@ -93,12 +95,15 @@ def video_caption(video_directory, caption_csv):
         cap.release()
         cv2.destroyAllWindows()
         
-def main():   
+def main():
+
+    proj_root = os.getenv('PROJ_ROOT', '/Volumes/proj')  # Use environment variable or default path
+
     file_num = random.randint(1, 40) # Generate a random number for the csv file and the video directory
 
     caption_csv = f"Intern_{file_num}.csv"
 
-    part_cut_path = "/Volumes/proj/hnl_downloaded_public_data/weakly_labeled/InternVid/data/training/Partitions-Cut"
+    part_cut_path = f"{proj_root}/hnl_downloaded_public_data/weakly_labeled/InternVid/data/training/Partitions-Cut"
 
     for folder in os.listdir(part_cut_path): # Iterate through all the split up partition directories to find corresponding partition file to video directory
         if not folder.startswith("."):
@@ -108,7 +113,7 @@ def main():
                     caption_csv_path = os.path.join(os.path.join(part_cut_path, folder), caption_csv)
 
 
-    video_directory = f"/Volumes/proj/hnl_downloaded_public_data/weakly_labeled/InternVid/data/training/Videos/Intern_{file_num}"
+    video_directory = f"{proj_root}/hnl_downloaded_public_data/weakly_labeled/InternVid/data/training/Videos/Intern_{file_num}"
 
     video_caption(video_directory, caption_csv_path)
     

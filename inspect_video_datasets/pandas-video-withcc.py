@@ -3,7 +3,9 @@ import os
 import pandas as pd
 import ast
 import random
+from dotenv import load_dotenv
 
+load_dotenv()
 
 def video_caption(video_directory, caption_csv):
     """Displays a random video from dataset with corresponding caption with a translucent black background for visibility
@@ -99,12 +101,14 @@ def video_caption(video_directory, caption_csv):
         cv2.destroyAllWindows()
 
 def main():
-       
+
+    proj_root = os.getenv('PROJ_ROOT', '/Volumes/proj')  # Use environment variable or default path
+ 
     file_num = random.randint(1, 40) # Select a random number between 1 and 40 to be used as which videos to caption
 
-    video_directory = f"/Volumes/proj/hnl_downloaded_public_data/weakly_labeled/pandas-70M/data/Training/Video_Whole/Pandas-Training_{file_num}"
+    video_directory = f"{proj_root}/hnl_downloaded_public_data/weakly_labeled/pandas-70M/data/Training/Video_Whole/Pandas-Training_{file_num}"
 
-    caption_csv = f"/Volumes/proj/hnl_downloaded_public_data/weakly_labeled/pandas-70M/data/Training/Partitions_Cut/Pandas-Training_{file_num}.csv"
+    caption_csv = f"{proj_root}/hnl_downloaded_public_data/weakly_labeled/pandas-70M/data/Training/Partitions_Cut/Pandas-Training_{file_num}.csv"
 
     video_caption(video_directory, caption_csv) # Execute code with video and csv path
 
